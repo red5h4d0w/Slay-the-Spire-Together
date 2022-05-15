@@ -22,6 +22,7 @@ import chronoMods.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.coop.*;
+import chronoMods.coop.courier.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.infusions.*;
 import chronoMods.ui.deathScreen.*;

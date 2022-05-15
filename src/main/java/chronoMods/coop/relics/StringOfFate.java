@@ -114,7 +114,6 @@ public class StringOfFate extends AbstractBlight {
     public static class RevivePlayer {
         @SpireInsertPatch(rloc=1875-1725, localvars={})
         public static SpireReturn Insert(AbstractPlayer player, DamageInfo info) {
-
             if (player.isDead) {
                 if (player.hasBlight("StringOfFate")) {
                     player.currentHealth = 0;

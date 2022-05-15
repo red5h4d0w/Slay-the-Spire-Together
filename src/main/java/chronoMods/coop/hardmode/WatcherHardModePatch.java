@@ -1,4 +1,4 @@
-package chronoMods.coop;
+package chronoMods.coop.hardmode;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 

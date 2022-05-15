@@ -26,6 +26,7 @@ import chronoMods.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.coop.*;
+import chronoMods.coop.courier.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;

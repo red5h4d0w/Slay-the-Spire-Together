@@ -1,4 +1,4 @@
-package chronoMods.coop;
+package chronoMods.coop.courier;
 
 import chronoMods.*;
 import chronoMods.network.steam.*;

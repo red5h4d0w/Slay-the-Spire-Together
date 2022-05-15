@@ -1,4 +1,4 @@
-package chronoMods.coop;
+package chronoMods.coop.courier;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.cards.*;
@@ -28,21 +28,12 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
 import java.util.*;
-import java.nio.*;
 
 import chronoMods.*;
-import chronoMods.network.steam.*;
 import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-import chronoMods.coop.drawable.*;
 import chronoMods.coop.infusions.*;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.interfaces.*;
 
 public class CoopCourierScreen {
 

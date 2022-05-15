@@ -56,6 +56,7 @@ import chronoMods.bingo.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.coop.*;
+import chronoMods.coop.courier.CoopCourierScreen;
 import chronoMods.chat.*;
 import chronoMods.coop.hubris.*;
 import chronoMods.coop.relics.*;

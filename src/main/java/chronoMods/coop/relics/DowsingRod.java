@@ -29,6 +29,7 @@ import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
+import chronoMods.coop.courier.*;
 
 public class DowsingRod extends AbstractBlight {
     public static final String ID = "DowsingRod";
