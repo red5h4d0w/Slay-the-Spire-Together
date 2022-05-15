@@ -1,4 +1,47 @@
-Spire with Friends - Version 3.0
+Spire with Friends - Version 3.1.2
+
+
+Bug Fixes:
+
+- Fixes occasional crashes on joining a lobby
+- Keep on trying to make steam portraits consistent
+- Neow Infusion relic should no longer show up in Couriers
+- Chaos Infusions should no longer potentially causes crashes on channelling a random orb
+- Should no longer be able to accidentally click player deck views instead of your own deck or the return button
+- Merge Cards should no longer be able to gain negative costs
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 3.1.1
+
+
+Minor Features:
+
+- 3.0 Chinese localization added
+- 3.0 Korean localization added
+- Neow Infusion bonus now has a counter
+
+Bug Fixes:
+
+- Gremlin Gang in Downfall should no longer cause issues on death
+- Updates to French localization
+- Chatting should no longer lock the scrollwheel on the map screen
+- Fixed a bug causing rules to update mid-run, which potentially removed keys during Bingo play
+- Four of one card and cards of the same type Bingo bugs should now be working promptly
+- Defeat a boss with only starter cards and colourless now functions
+- Improvements to Steam Avatar detection
+- Extended the Neow lag resolver from 500ms to 750ms
+- Volume on Bingo notification decreased
+- Chat now clears in between games and lobbies.
+- Added a player count to the lobby screen for Versus and Bingo
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 3.1
 
 Major Features:
 
@@ -15,7 +58,11 @@ Minor Features:
 - Increase Courier chance by 5%
 - Hovering over the player or the left Spire elite will fade out the player tabs
 
-Bugs Fixed:
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+(3.0 rc1)
 
 - Fixed a rare crash on co-op map drawing
 - Fixed a mod compatibility issue with added Map Nodes causing crashes with other mods
@@ -153,6 +200,62 @@ Bugs Fixed:
 - Hard Mode Watcher now returns Sash Whip for Match and Keep, Remove Class Basic Penalty
 - The Key Door screen should no longer shower you with welding then softlock
 - Added a bunch of Spire specific Hint tips
+
+(3.0 rc10)
+
+- New Hard Mode Heart mechanic - the Team will choose challenges at the Act 4 Fire
+- Hard Mode Watcher starter card is now Just Lucky instead of Sash Whip (as a trial)
+- Improved the sending/receiving of early player information to prevent 0s
+- Team Relic lag-based bugs on acquisition should no longer occur (Big House, Wallet, Mirror Touch, Vapor Funnel)
+- Improved descriptions on above relics
+- Eruption should no longer cost 9k in shops in Hard Mode
+- Added a safety check for mods that modify potion slots when you have Vapor Funnel
+- Discord support should no longer cause crashes when a profile picture doesn't exist
+- Added several safety checks for unknown network latency related crashes
+- You can no longer softlock by checking another player's deck on the lock screen
+- Neow's speech bubble should always be above the top Neow bonus option in Co-op
+- Minimized Coop, maximized Co-op, 40% less chickens
+- Neow Penalties should no longer desync after taking Infusion bonuses
+- Linked Infused Starters now show the cards briefly on screen
+- Neow bonuses should now never have simul-click softlocks
+- X cost Merge cards now function as expected
+- Big House will now once again function
+- Merge cards now play when used as the last Choker, Time Maze, Normality, or Time Warp cards
+- Several improvements made to ensure the reliability of the Deck Info player mouseover
+- Watcher Hard Mode starters will now be targeted by Infuse Starter cards
+- Watcher Hard Mode starters will now count as Basic cards for all relevant purposes
+- Blunt Scissors Keep/Send will now default to the keeping a card, and reads Send/Back for clarity
+
+(3.0 rc11)
+
+- Fixed a critical bug with Discord API changes that caused immediate crashes
+- Lobby owners will no longer cause crashes on latent networks when changing
+- Hard Mode will now prioritize Heart modifiers for bosses you haven't encountered
+- Strange Flame visuals and animations updated
+- Fixed an issue causing difficulties clicking on the boss icon using Downfall characters
+- The game should now ask for confirmation for the individual fighting the Burning Boss on Hard Mode
+- Fixed a few typos in infusions
+- Neow Linked Infusion Draft increased from 3 to 4
+- Infused cards now properly take into account str, dex, vuln, relics, etc for additional effects
+- Blunt Scissors will no longer send Madnesses if you send a Merge Card, but instead the first card of the pair
+- Blunt Scissors has an improved description
+- You should no longer be able to open the player deck screen on the Courier screen, allowing you to click infusions
+- Exhaust random infusion now doesn't let you choose the random card to be exhausted :)
+- Bingo Board is no longer blocked by Chat text entry
+- Bingo Board now appears correctly over Card Rewards and other critical screens, including the banner
+- You are now shown which row got a Bingo on Victory
+- Bingo Team name tickers now scale properly with team size
+- On joining a team Bingo lobby, players will be assigned to the smallest existing team
+- Dimensioneel should no longer show Orrery or Cauldron
+- Updated Dimensioneel description to be more appealing
+- Dimensioneel now gives 75% off relic prices, instead of 50%
+
+(3.0 rc12)
+
+- Co-op death screen should now should the correct button text
+- Death Screens should no longer double-render the player list
+- Dimensioneel should really never offer Orrery/Cauldron now, honest
+
 
 ---------------------------------------------------------------------------------------------------------------------
 

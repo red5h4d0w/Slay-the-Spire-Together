@@ -458,14 +458,15 @@ public class CoopCourierScreen {
 		try {	
 			// Cauldron and Orrery are broken dumdums
 			for (AbstractRelic r : shufflePicker) {
-				if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+				if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
+                        TogetherManager.log("Has one: " + r.name);
 			    	shufflePicker.remove(r);
 			    	break;
 				}
 			}
 
 			for (AbstractRelic r : shufflePicker) {
-				if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+				if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
 			    	shufflePicker.remove(r);
 			    	break;
 				}
@@ -488,6 +489,7 @@ public class CoopCourierScreen {
 			// Dimensioneel relics
 			if (AbstractDungeon.player.hasBlight("Dimensioneel")) {
 				ArrayList<AbstractRelic> randomizer = new ArrayList();
+
 				randomizer.addAll(RelicLibrary.commonList);
 				randomizer.addAll(RelicLibrary.uncommonList);
 				randomizer.addAll(RelicLibrary.rareList);
@@ -498,12 +500,17 @@ public class CoopCourierScreen {
 				randomizer.addAll(RelicLibrary.whiteList);
 				Collections.shuffle(randomizer);
 
-				for (int p = 0; p < 2; p++) {				
-					for (AbstractRelic r : randomizer) {
-						if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
-					    	shufflePicker.remove(r);
-					    	break;
-						}
+                for (Iterator<AbstractRelic> i = randomizer.iterator(); i.hasNext(); ) {
+                    AbstractRelic r = i.next();
+					if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
+                        TogetherManager.log("Removing " + r.name);
+                        i.remove(); 
+                    }
+                } 
+				for (AbstractRelic r : randomizer) {
+					if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
+                        TogetherManager.log("Still here: " + r.name);
+				    	break;
 					}
 				}
 

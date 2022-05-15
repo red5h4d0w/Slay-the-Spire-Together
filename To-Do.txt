@@ -1,51 +1,49 @@
 More Features to add:
 
-	Chat, Hard Mode, Infusions, Merge Cards, Bingo, Steam Portraits, Old Fixes, Downfall
+	Steam portraits are still ? sometimes - why??
 
 	Chat
 		Make a chatting icon instead of the silly text prompt when in 'isOpen'
 		Line wrap
 		Names with spaces in them get colour bugged
+		Chat should be able to be hidden permanently
 
 	Hard Mode
-		add a prompt that asks: are you sure you want to fight the burning boss?
-		Eruption costs 9k in a shop
-
-	Downfall
-		Fix the map boss shit
+		Toggle on co-op screen for Linked bonuses On/Off
 
 	Merge
-		Two whirlwind merges does nothing
-		check all X cost merges
+		Blunt Scissors should swap out send cards to reflect what cards get sent (when Merges present)
+		Blunt scissors should have a queue counter (1, 2, 3...)
+		Blunt Scissors seems to only be working one way....? One player is not receiving any cards from the merge
+		Blunt scissors should probably have its own button
+		Blunt scissors should just send it to two players max, chosen randomly
 
 	Infusions
 		Return this card to your hand shouldn't be valid on a 0 cost card...
 
 	Bingo
-		Bingo board should render over card reward (and maybe other things)
-		Victory screen doesn't convey sufficient victory
-		Draw line across winning bingo
+		Team Selector rounds up and not down (3p teams max 1 team, should be 2)
 		Things like 'visit 15 events' should have a counter
-		Large Bingo card mouseover team username tickers are positioned poorly and non-resolution independent
+		Large Bingo card mouseover team username tickers are non-resolution independent
+		New players sometimes can't figure out where the bingo card is
 
 		Skip Relic button triggers the bingo but you can get back into the relic menu
-		Cycleable bingo team size should update when more players join
+		Reset button text is not in localization
+		Bingo custom image freezes the process, but the popup modal sometimes goes behind the app, especially in fullscreen borderless
+		On the result screen, the bingo card appears behind the higher player widgets
+		Bingo notification doesn't seem to be consistently triggering
+		Show team player counts in Bingo for easier allocaiton
 
 	Make Patreon more noticeable
+	Boss relic swap doesn't send the correct relic Info to the widget
 
-	Fix Mirror Touch tooltip so it stops recalculating
 	Versus bug fixes?
 	Change blue ladder... again
 
-	Sometimes the Player Widgets are getting doubled (?!)
-	
-	Neow's Text box covers the starting bonuses and shouldn't
-	
-	HP and gold syncing at the beginnning of the run
 	Fix relic list syncs for Watcher/Defect/Boss Relic Swap?
-	Prevent Neow simul-clicks
+	also mind bloom doesn't work properly. (999 gold goes away too early) because of extra floors
+	Guarantee a certain amount of couriers per floor
 	
-	Replace the tips in Gamehints with custom Spire with Friends hints, including patreon and discord plugs
  	2nd stacked Centennial Puzzle does nothing
 
  	Neow Bonus for non-linked Merge and Infusion...?
@@ -57,19 +55,12 @@ More Features to add:
   				 - Infuse your class basics with downside Infusions, bad infusions
   				 - Merge cards with Slimed, Burn, Curses...?
  
- 	Dimensioneel could be more appealing, better wording, stronger effect
 
-
-
-Funnel description is wrong after pickup
-Vapor funnel not correctly assessing penalties/bonuses
 
 There should be a message when lives swap for keys
-Vapour funnel doesn't account for the potion bonus at the beginning of the game, only the penalty
 We could improve the display of keys in the messaging systems when a friend gives one to you
 Patreons and Credits need to be updated, including translations
 Private lobbies might not work
-Mirror Touch and Wallet sync bugs should be fixed perhaps
 Fix some visual booster bugs you fucktard, also String of Fate resolution issues
 
 Disconnections suck
@@ -118,8 +109,6 @@ To-Do:
 • Improve mod detection so it doesn't misdetect so often
 • Backup portraits for when Steam fails
 
-• Do some profiling and see if there are issues you can smooth out performance-wise.
-
 • In versus the retry gives different card rewards?
 • In Versus, after dying, got Lament only but no Neow bonus
 
@@ -143,7 +132,6 @@ Won't do yet:
 
 • Extra coop relics x1
 • Versus improvements for speedrunners - solo speedrun, storing splits, PBs, seed comparisons for unseeded
-• default profile picture for individuals in place of steam, spire with friends logo? The holdy hands friends?
 • Finish Coop non-stacking vanilla relics
 • Change Preserved Insect, Boot, Prayer Wheel descriptions to reflect stacking copies...?
 
@@ -153,16 +141,10 @@ Won't do yet:
 
 • Custom mode menu's y value needs to be setting scaled
 
-• Dimensional wallet doesn't always sync money correctly
-• I cant proceed after taking Big House
-• Blue Ladder uses up wing boots charges T_T
-
 • Floor related things such as relic availability or Mind Bloom or Portal to Boss probably don't work right anymore.
 • Brush size Persist between runs as a feature
 
 • Why not add some pre-drawn 'stamps' that can be added to the map via drawing?
-
-• Neow will cause a crash if the number of players drops between having the options presented and selecting them.
 
 • If players are too fast, they can both choose the same Neow options, causing a softlock
 
@@ -170,10 +152,8 @@ Won't do yet:
 
 • Add a map trail toggle so that other player's map trail aren't obnoxious
 • Improvements to RAINBOW title fire
-• Event panels draw overtop of team stats
 
 • Top Panel timer shifts positions, which is a little awkward
-• Indication of the number of deaths on the player widget (Versus)
 
 • bug report: i abandoned a match in spire with friends and then switched profiles and my game crashed
 • Start a run with modifiers that have a specific team relic

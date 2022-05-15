@@ -191,8 +191,8 @@ public class ChatScreen implements PostUpdateSubscriber, RenderSubscriber {
     }
 
     public boolean shouldHide () {
-        if (isOpen || showTimer > 0.0F) { return false; }
         if (isHidden) { return true; }
+        if (isOpen || showTimer > 0.0F) { return false; }
         if (CardCrawlGame.isInARun() && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) { return false; }
         if (!CardCrawlGame.isInARun()) { return false; }
 
@@ -327,6 +327,7 @@ public class ChatScreen implements PostUpdateSubscriber, RenderSubscriber {
                     TypingMsg = "";
                     TypingCursor = 0;
                     isOpen = false;
+                    Gdx.input.setInputProcessor(vanillaInput);
                 }
                 if (Gdx.input.isKeyJustPressed(RemoveKey)) {
                     if (TypingCursor > 0) {

@@ -98,6 +98,9 @@ public class BluntScissors extends AbstractBlight {
                     // Show card and add to Relic
                     // AbstractDungeon.effectsQueue.add(new FastCardObtainEffect(hoveredCard, hoveredCard.current_x, hoveredCard.current_y));
                     BluntScissors.cardSent = hoveredCard;
+                    if (hoveredCard.cardID.equals("MergeCard"))
+                        BluntScissors.cardSent = ((DuctTapeCard)hoveredCard).cards.get(0);
+
                     NetworkHelper.sendData(NetworkHelper.dataType.BluntScissorCard);
 
                     return SpireReturn.Return(null);
@@ -116,6 +119,8 @@ public class BluntScissors extends AbstractBlight {
 
                 AbstractCard validCard = FindValidMergeCard(__instance.rewardGroup);
                 BluntScissors bs = (BluntScissors)AbstractDungeon.player.getBlight("BluntScissors");
+                
+                BluntScissors.skipCardToggle = false;
 
                 while (validCard != null && bs.cardsToMerge.size() > 0) {
 
@@ -182,6 +187,8 @@ public class BluntScissors extends AbstractBlight {
 
     @Override
     public void onEquip() {
+        if (isObtained) { return; }
+        
         cardsToMerge.clear();
         updateDescription();
     }

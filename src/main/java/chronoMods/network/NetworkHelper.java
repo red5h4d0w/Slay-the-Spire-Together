@@ -30,6 +30,9 @@ import com.megacrit.cardcrawl.ui.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import com.megacrit.cardcrawl.cutscenes.*;
+import com.megacrit.cardcrawl.events.*;
+import com.megacrit.cardcrawl.ui.campfire.*;
+
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -40,6 +43,7 @@ import chronoMods.*;
 import chronoMods.coop.*;
 import chronoMods.coop.hubris.*;
 import chronoMods.coop.infusions.*;
+import chronoMods.coop.hardmode.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
 import chronoMods.network.discord.DiscordIntegration;
@@ -144,6 +148,7 @@ public class NetworkHelper {
 			case Rules:
 				// Backup plan for slow loaders?
 				if (NewMenuButtons.newGameScreen == null || NewMenuButtons.newGameScreen.ascensionSelectWidget == null) { return; }
+				if (CardCrawlGame.isInARun()) { return; } // Fix for rules changing during the middle of bingo somehow
 
 				int character = data.getInt(4);
 				if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
@@ -257,24 +262,25 @@ public class NetworkHelper {
 			case Hp:
 				int Hp = data.getInt(4);
 				int maxHp = data.getInt(8);
-				if (AbstractDungeon.player == null) { return; }
 
-				if (AbstractDungeon.player.hasBlight("MirrorTouch")) {
+				if (AbstractDungeon.player != null) {
+					if (AbstractDungeon.player.hasBlight("MirrorTouch")) {
 
-					if (!playerInfo.isUser(TogetherManager.currentUser)) {
-						if (Hp > AbstractDungeon.player.currentHealth)
-							AbstractDungeon.topLevelEffects.add(new HealNumberEffect(playerInfo.widget.x + 64f, playerInfo.widget.y, Hp - AbstractDungeon.player.currentHealth));
-						else
-							AbstractDungeon.topLevelEffects.add(new DamageNumberEffect(AbstractDungeon.player, playerInfo.widget.x + 64f, playerInfo.widget.y, AbstractDungeon.player.currentHealth - Hp));
+						if (!playerInfo.isUser(TogetherManager.currentUser)) {
+							if (Hp > AbstractDungeon.player.currentHealth)
+								AbstractDungeon.topLevelEffects.add(new HealNumberEffect(playerInfo.widget.x + 64f, playerInfo.widget.y, Hp - AbstractDungeon.player.currentHealth));
+							else
+								AbstractDungeon.topLevelEffects.add(new DamageNumberEffect(AbstractDungeon.player, playerInfo.widget.x + 64f, playerInfo.widget.y, AbstractDungeon.player.currentHealth - Hp));
+						}
+
+						AbstractDungeon.player.currentHealth = Hp;
+						AbstractDungeon.player.maxHealth = maxHp;
+
+		            	AbstractDungeon.player.healthBarUpdatedEvent();
+
+		            	for (RemotePlayer playerhp : TogetherManager.players)
+		            		playerhp.hp = Hp;
 					}
-
-					AbstractDungeon.player.currentHealth = Hp;
-					AbstractDungeon.player.maxHealth = maxHp;
-
-	            	AbstractDungeon.player.healthBarUpdatedEvent();
-
-	            	for (RemotePlayer playerhp : TogetherManager.players)
-	            		playerhp.hp = Hp;
 				}
 
 				playerInfo.hp = Hp;
@@ -283,14 +289,15 @@ public class NetworkHelper {
 				break;
 			case Money:
 				int Money = data.getInt(4);
-				if (AbstractDungeon.player == null) { return; }
 
-	            if (TogetherManager.gameMode == TogetherManager.mode.Coop && AbstractDungeon.player.hasBlight("DimensionalWallet")) {
-	            	AbstractDungeon.player.gold = Money;
-	            	for (RemotePlayer playergld : TogetherManager.players) {
-	            		playergld.gold = Money;
-	            	}
-	            }
+				if (AbstractDungeon.player != null) {
+		            if (TogetherManager.gameMode == TogetherManager.mode.Coop && AbstractDungeon.player.hasBlight("DimensionalWallet")) {
+		            	AbstractDungeon.player.gold = Money;
+		            	for (RemotePlayer playergld : TogetherManager.players) {
+		            		playergld.gold = Money;
+		            	}
+		            }
+		        }
 
 				playerInfo.gold = Money;
 				TogetherManager.log("Gold: " + Money);
@@ -482,9 +489,9 @@ public class NetworkHelper {
 				TogetherManager.log("Send potion: " + stringOutb);
 
 				// Obtain the potion
-				if (AbstractDungeon.player.potions.get(potslotb) instanceof PotionSlot) {
-		            AbstractDungeon.player.obtainPotion(potslotb, PotionHelper.getPotion(stringOutb));
-		        }
+				if (AbstractDungeon.player.potions.size() > potslotb)
+					if (AbstractDungeon.player.potions.get(potslotb) instanceof PotionSlot) 
+		            	AbstractDungeon.player.obtainPotion(potslotb, PotionHelper.getPotion(stringOutb));
 
 				break;
 			case Splits:
@@ -564,66 +571,8 @@ public class NetworkHelper {
 				if (playerInfo.userName == null)
 					playerInfo.userName = "Unknown Player";
 
-				if (CoopNeowEvent.screenNum == 1)
-					CoopNeowEvent.rewards.get(choice).chosenBy = playerInfo;
-				else 
-					CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo;
-
-				// Safety patch to prevent crashes
-				if (AbstractDungeon.getCurrRoom().event.roomEventText.optionList.size() < choice) 
-					return;
-
-	        	String neowMsg = String.format(CardCrawlGame.languagePack.getUIString("Neow").TEXT[0], playerInfo.userName.replaceAll(" ", " #p"), AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg);
-
-				AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg = neowMsg;
-				AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).isDisabled = true;
-
-				if (playerInfo.isUser(TogetherManager.currentUser)) {
-					for (LargeDialogOptionButton choiceButton : AbstractDungeon.getCurrRoom().event.roomEventText.optionList) {
-						choiceButton.isDisabled = true;
-					}
-				}
-
-				// Special Linked Choosing
-				if (CoopNeowEvent.screenNum == 1) {	// Benign bonuses
-					if (CoopNeowEvent.rewards.get(choice).link != null) {	// This is a linked choice
-						if (CoopNeowEvent.rewards.get(choice).link.chosenBy != null) {	// The other choice is already chosen
-							// Check both options, if either of them is us, activate
-							CoopNeowReward neowReward = CoopNeowEvent.rewards.get(choice);
-
-							if (neowReward.chosenBy.isUser(TogetherManager.currentUser)) // I am the one who just clicked it
-								neowReward.linkedActivate(neowReward.link.chosenBy);
-							if (neowReward.link.chosenBy.isUser(TogetherManager.currentUser)) //  The other person just clicked it
-								neowReward.link.linkedActivate(playerInfo);
-						}
-					}
-				}	
-				
-		       	// Is choosing done?
-				int chosenPlayerCount = 0;
-
-				if (CoopNeowEvent.screenNum == 1) {
-					// Stop here if not everyone has chosen
-					for (CoopNeowReward r : CoopNeowEvent.rewards) {
-						if (r.chosenBy != null) { 
-							chosenPlayerCount++;
-							if (chosenPlayerCount >= TogetherManager.players.size()) {
-								TogetherManager.log("Advance the screen!");
-								CoopNeowEvent.advanceScreen();
-							}
-						}
-					}
-				} else {
-					for (CoopNeowReward r : CoopNeowEvent.penalties) {
-						if (r.chosenBy != null) { 
-							chosenPlayerCount++;
-							if (chosenPlayerCount >= TogetherManager.players.size()) {
-								TogetherManager.log("Advance the screen!");
-								CoopNeowEvent.advanceScreen();
-							}
-						}
-					}
-				}
+				// Choice logic
+				CoopNeowEvent.registerChoice(choice, playerInfo);
 
 				break;
 			case ChooseTeamRelic:
@@ -643,6 +592,7 @@ public class NetworkHelper {
 				if (teamScreen.selected.get(choicer).size() == TogetherManager.players.size()) {
 					TogetherManager.log("Got a team relic: " + teamScreen.blights.get(choicer).name);
 					teamScreen.blights.get(choicer).obtain();
+					teamScreen.blights.get(choicer).onEquip();
 					teamScreen.blights.get(choicer).isObtained = true;
 					TogetherManager.log("Closing up: " + teamScreen.blights.get(choicer).name);
 					TogetherManager.teamRelicScreen.blightChoiceComplete();
@@ -868,29 +818,29 @@ public class NetworkHelper {
 				byte[] bytesDeckInfo = new byte[data.remaining()];
 				data.get(bytesDeckInfo);
 
-				AbstractCard deckInfoOutCard = CardDataBuffer.fromJson(new String(bytesDeckInfo)).generateCard();
-				TogetherManager.log("Update Deck Cards: " + deckInfoOutCard.cardID);
+				CardDataBuffer bufferCard = CardDataBuffer.fromJson(new String(bytesDeckInfo));
+				AbstractCard deckInfoOutCard = bufferCard.generateCard();
+				TogetherManager.log("Update Deck Cards: " + updateDeckCard + ", " + removeDeckCard + " - " + deckInfoOutCard.toString());
 
 				AbstractCard removeMeFromDeck = null;
 				// Add it to the deck
 				if (updateDeckCard > 0) {
-					for (AbstractCard c : playerInfo.deck.group) {
-						if (c.cardID.equals(deckInfoOutCard.cardID) && !c.upgraded) {
+					for (AbstractCard c : playerInfo.deck.group)
+						if (bufferCard.isCard(c) && !c.upgraded)
 							c.upgrade();
-							return;
-						}
-					}
+
 				} else if (removeDeckCard > 0) {
 					for (AbstractCard c : playerInfo.deck.group) {
-						if (c.cardID.equals(deckInfoOutCard.cardID) && c.timesUpgraded == deckInfoOutCard.timesUpgraded)
+						if (bufferCard.isCard(c) && c.timesUpgraded == deckInfoOutCard.timesUpgraded)
 							removeMeFromDeck = c;
 					}
 					playerInfo.deck.removeCard(removeMeFromDeck);
-				} else {
+				} else { 
 	            	playerInfo.deck.addToBottom(deckInfoOutCard);
 				}
 
-				playerInfo.widget.updateCardDisplay();
+				if (playerInfo.widget != null)
+					playerInfo.widget.updateCardDisplay();
 
 				break;
 			case RelicInfo:
@@ -967,7 +917,9 @@ public class NetworkHelper {
 				for (RemotePlayer bingoUser : TogetherManager.players) {
 					boolean marked = Caller.markCard(playerInfo, data.getInt(4));
 
-					if (Caller.isWin(playerInfo.bingoCard)) {
+					int victory = Caller.isWin(playerInfo.bingoCard);
+					if (victory > 0) {
+						((BingoPlayerWidget)playerInfo.widget).winningLine = victory;
 			            NewDeathScreenPatches.EndScreenBase = new EndScreenBingoVictory(AbstractDungeon.getCurrRoom().monsters, playerInfo);
 			            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
 			        }
@@ -1068,6 +1020,15 @@ public class NetworkHelper {
 			case BluntScissorCard:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
 
+				// Don't always recieve the card. 0.15 chance for every player past the second not to get it
+				// 2p = 100%
+				// 3p = 85%
+				// 4p = 70%
+				// 5p = 55%
+				// 6p = 40%
+				float chanceDecrement = MathUtils.clamp(TogetherManager.players.size()-2 * 0.1f, 0f, 0.5f);
+				if (MathUtils.randomBoolean(1.0f - chanceDecrement)) { return; }
+
 				// Get upgrade
 				int upgradebs = data.getInt(4);
 				int miscbs = data.getInt(8);
@@ -1119,12 +1080,21 @@ public class NetworkHelper {
 	            	TogetherManager.getCurrentUser().packages.add(new InfusionReward(infSet.getRandomInfusion()));
 
 				break;
+			case HeartChoice:
+				playerInfo.heartChosen = HearthOption.Options.values()[data.getInt(4)];
+
+				if (AbstractDungeon.actNum == 4 && AbstractDungeon.player.hasBlight("StrangeFlame"))
+					if (AbstractDungeon.getCurrRoom() instanceof RestRoom)
+						for (HearthOption h : (ArrayList<HearthOption>)ReflectionHacks.getPrivate(((RestRoom)(AbstractDungeon.getCurrRoom())).campfireUI, CampfireUI.class, "buttons"))
+							h.checkUsable();
+
+				break;
 		}
 	}
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion, HeartChoice;
       
     	private dataType() {}
     }
@@ -1473,6 +1443,7 @@ public class NetworkHelper {
 				break;
 			case DeckInfo:
 				CardDataBuffer deckCard = new CardDataBuffer(SendDataPatches.sendCard);
+				TogetherManager.log("DeckInfo sent: " + deckCard.toString());
 
 				// Deck Stats.
 				data = ByteBuffer.allocateDirect(20 + deckCard.getBytes().length);
@@ -1623,6 +1594,10 @@ public class NetworkHelper {
 				TransfusionBag.set = null;
 
 				break;
+			case HeartChoice:
+				data = ByteBuffer.allocateDirect(8);
+				data.putInt(4, HardModeHeart.HeartChoice);
+				break;
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;
@@ -1697,7 +1672,7 @@ public class NetworkHelper {
 			service.getLobbies();
 	}
 
-	public static void addPlayer(RemotePlayer player) {
+	public static void addPlayer(RemotePlayer player) {		
 		// Make sure we're not adding a dupe
 		for (RemotePlayer oldplayer : TogetherManager.players)
 			if (oldplayer.isUser(player))
