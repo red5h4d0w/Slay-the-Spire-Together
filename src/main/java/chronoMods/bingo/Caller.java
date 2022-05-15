@@ -2,14 +2,12 @@ package chronoMods.bingo;
 
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.random.*;
 import com.megacrit.cardcrawl.vfx.*;
 import com.badlogic.gdx.graphics.Texture;
 
 import chronoMods.*;
 import chronoMods.ui.hud.*;
 import chronoMods.network.*;
-import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 
 import java.util.*;
@@ -24,7 +22,7 @@ public class Caller
 	// In order to allow for different 'difficulties', we group bingos into Easy, Medium, and Hard.
 	//		We can then make sliding scales for how many goals of each type are on a bingo card.
 
-    public static ArrayList<AbstractGameEffect> notifications = new ArrayList();
+    public static ArrayList<AbstractGameEffect> notifications = new ArrayList<AbstractGameEffect>();
 
     public static void bingoNotificationQueue() {
     	if (notifications.size() > 0) {

@@ -8,32 +8,16 @@ import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.vfx.*;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.dungeons.*;
-import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import chronoMods.*;
-import chronoMods.network.steam.*;
 import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.coop.relics.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
 
 public class BingoPanelCompleteNotification extends AbstractGameEffect {
-	private static final float TEXT_DURATION = 1.8F;
-	private static final float DRAW_X = Settings.WIDTH / 2.0F, DRAW_Y = Settings.HEIGHT * 0.6F;	
-	private static final float STARTING_OFFSET_Y = 0.0F * Settings.scale;
-	private static final float TARGET_OFFSET_Y = 120.0F * Settings.scale;
-	private static final float LERP_RATE = 5.0F;
+	private static final float DRAW_Y = Settings.HEIGHT * 0.6F;	
 
 	public static final String[] EasyBingo = CardCrawlGame.languagePack.getUIString("EasyBingo").TEXT;
 	public static final String[] MedBingo = CardCrawlGame.languagePack.getUIString("MedBingo").TEXT;
@@ -43,7 +27,6 @@ public class BingoPanelCompleteNotification extends AbstractGameEffect {
 
 	private float X, Y, offsetX, offsetY;
 	public float scaleMod = 1.0f;
-	private String msg;
 
 	public RemotePlayer playerMarked;
 	public int mark;

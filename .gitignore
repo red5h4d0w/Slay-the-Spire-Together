@@ -39,3 +39,4 @@ target/
 # local paths
 settings-template.xml
 .vscode/settings.json
+dependency-reduced-pom.xml

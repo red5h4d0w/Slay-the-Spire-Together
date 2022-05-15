@@ -30,6 +30,7 @@ import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
 import chronoMods.coop.*;
+import chronoMods.coop.courier.*;
 
 public class RemotePlayerWidget implements Comparable
 {

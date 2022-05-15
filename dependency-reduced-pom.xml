@@ -33,7 +33,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.3.1</version>
         <configuration>
-          <outputDirectory>${mods-folder-path}</outputDirectory>
+          <outputDirectory>${Steam.path}/common/SlayTheSpire/mods</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
@@ -48,35 +48,39 @@
     <dependency>
       <groupId>com.megacrit.cardcrawl</groupId>
       <artifactId>slaythespire</artifactId>
-      <version>017</version>
+      <version>${SlayTheSpire.version}</version>
       <scope>system</scope>
-      <systemPath>${install-root}/desktop-1.0.jar</systemPath>
+      <systemPath>${Steam.path}/common/SlayTheSpire/desktop-1.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.evacipated.cardcrawl</groupId>
-      <artifactId>ModTheSpire</artifactId>
-      <version>2.7.0</version>
+      <artifactId>modthespire</artifactId>
+      <version>${ModTheSpire.version}</version>
       <scope>system</scope>
-      <systemPath>${mts-jar-path}</systemPath>
+      <systemPath>${Steam.path}/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
     </dependency>
     <dependency>
-      <groupId>com.evacipated.cardcrawl</groupId>
-      <artifactId>BaseMod</artifactId>
-      <version>4.0.0</version>
+      <groupId>basemod</groupId>
+      <artifactId>basemod</artifactId>
+      <version>5.0.0</version>
       <scope>system</scope>
-      <systemPath>${basemod-jar-path}</systemPath>
+      <systemPath>${Steam.path}/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>mod-group-name</groupId>
       <artifactId>downfall</artifactId>
       <version>3.1.11</version>
       <scope>system</scope>
-      <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1610056683/downfall.jar</systemPath>
+      <systemPath>${Steam.path}/workshop/content/646570/1610056683/downfall.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>
+    <ModTheSpire.version>3.8.0</ModTheSpire.version>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <Steam.path>/home/ismael/.steam/steam/steamapps</Steam.path>
+    <SlayTheSpire.version>12-22-2020</SlayTheSpire.version>
     <maven.compiler.source>1.8</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
 

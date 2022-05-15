@@ -1,4 +1,4 @@
-package chronoMods.coop;
+package chronoMods.coop.courier;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.*;
